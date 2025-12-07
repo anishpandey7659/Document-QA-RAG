@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Document Summarizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body class="bg-gray-50">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loader">
+                <div class="loader-circle"></div>
+                <i class="fas fa-file-alt loader-icon"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Processing Your Document</h3>
+            <p id="loadingStep" class="text-gray-300 mb-4">Uploading file...</p>
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <div class="loading-steps">
+                <div id="stepIndicator">Step 1 of 4</div>
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-file-alt text-3xl"></i>
+                    <h1 class="text-2xl font-bold">AI Document Summarizer</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm opacity-90">Anish Pandey</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-6 py-8">
+        <!-- Upload Section -->
+        <div id="uploadSection" class="mb-8">
+            <div class="glass-effect rounded-2xl shadow-xl p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-cloud-upload-alt mr-3 text-purple-600"></i>
+                    Upload Your Document
+                </h2>
+                
+                <div id="uploadArea" class="upload-area rounded-xl p-12 text-center cursor-pointer">
+                    <i class="fas fa-file-upload text-6xl text-gray-400 mb-4"></i>
+                    <p class="text-xl font-semibold text-gray-700 mb-2">Drag & Drop your document here</p>
+                    <p class="text-gray-500 mb-4">or click to browse</p>
+                    <p class="text-sm text-gray-400">Supports: PDF, TXT, DOC, DOCX (Max 10MB)</p>
+                    <input type="file" id="fileInput" class="hidden" accept=".pdf,.txt,.doc,.docx">
+                    
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                    <div class="feature-card bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-purple-100 rounded-lg p-3">
+                                <i class="fas fa-compress-alt text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Auto Summarize</h3>
+                                <p class="text-sm text-gray-500">Instant summaries</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-card bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-blue-100 rounded-lg p-3">
+                                <i class="fas fa-comments text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Ask Questions</h3>
+                                <p class="text-sm text-gray-500">Interactive Q&A</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-card bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-green-100 rounded-lg p-3">
+                                <i class="fas fa-key text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Key Insights</h3>
+                                <p class="text-sm text-gray-500">Extract highlights</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Viewer & Chat Section -->
+        <div id="workspaceSection" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Document Viewer -->
+                <div class="glass-effect rounded-2xl shadow-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-file-alt mr-2 text-purple-600"></i>
+                            <span id="documentTitle">Document</span>
+                        </h2>
+                        <button id="closeDocument" class="text-gray-500 hover:text-red-500 transition">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600"><i class="fas fa-file mr-2"></i><span id="fileName">-</span></span>
+                            <span class="text-gray-600"><i class="fas fa-weight mr-2"></i><span id="fileSize">-</span></span>
+                        </div>
+                    </div>
+
+                    <div id="documentContent" class="document-viewer bg-white rounded-lg p-6 border border-gray-200"  style="height:700px; padding:0">
+                         <iframe id="pdfViewer" src="" width=100% height=100% style="border:none;"></iframe>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-3 mt-4">
+                        <button id="summarizeBtn" class="btn-primary flex-1 text-white px-4 py-2 rounded-lg font-semibold">
+                            <i class="fas fa-magic mr-2"></i>Generate Summary
+                        </button>
+                        <button id="keyPointsBtn" class="bg-green-500 hover:bg-green-600 flex-1 text-white px-4 py-2 rounded-lg font-semibold transition">
+                            <i class="fas fa-lightbulb mr-2"></i>Key Points
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="glass-effect rounded-2xl shadow-xl p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-comments mr-2 text-blue-600"></i>
+                        Ask Questions
+                    </h2>
+
+                    <div id="chatContainer" class="chat-container bg-gray-50 rounded-lg p-4 mb-4 space-y-4">
+                        <div class="text-center text-gray-400 py-8">
+                            <i class="fas fa-robot text-5xl mb-3"></i>
+                            <p>Start asking questions about your document!</p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Questions -->
+                    <div id="quickQuestions" class="mb-4 flex flex-wrap gap-2">
+                        <button class="quick-question bg-white border border-gray-300 hover:border-purple-500 px-3 py-1 rounded-full text-sm transition">
+                            What is this document about?
+                        </button>
+                        <button class="quick-question bg-white border border-gray-300 hover:border-purple-500 px-3 py-1 rounded-full text-sm transition">
+                           Convert this document into bullet points.
+                        </button>
+                        <button class="quick-question bg-white border border-gray-300 hover:border-purple-500 px-3 py-1 rounded-full text-sm transition">
+                            Create a short summary
+                        </button>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="flex space-x-2">
+                        <input 
+                            type="text" 
+                            id="questionInput" 
+                            placeholder="Type your question here..." 
+                            class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        >
+                        <button id="sendQuestion" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+    
+</body>
+</html>
