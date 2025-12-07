@@ -28,11 +28,11 @@ CSS3 (Flexbox/Grid for layout)
 JavaScript (Vanilla JS for interactivity)
 
 Backend / RAG Tools:
-
-[Your RAG tool/library name] (e.g., LangChain, or custom Python/Node backend)
+Fast Api ,Langchain
 
 Embedding models for semantic search
 
 Retrieval algorithms to find relevant sections of the document
 
 Demo: https://www.linkedin.com/posts/anish-pandey-9235a32a6_ai-langchain-fastapi-activity-7395786067347431424-CH8j?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEnFH2sBQUw4FY84tVbf0JVtZ4Aa6ghx9nU
+
