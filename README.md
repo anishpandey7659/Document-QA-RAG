@@ -7,6 +7,16 @@ A modern, full-stack Retrieval-Augmented Generation (RAG) application that enabl
 ![LangChain](https://img.shields.io/badge/LangChain-Latest-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+## 🎥 Demo
+
+📺 **See it in action!** Watch the full demo video on LinkedIn:
+
+[![Demo Video](https://img.shields.io/badge/LinkedIn-Demo%20Video-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/posts/anish-pandey-9235a32a6_ai-langchain-fastapi-activity-7395786067347431424-CH8j)
+
+> 🎬 Click the badge above to watch a complete walkthrough of the Document QA RAG system, including PDF upload, question-answering, and the RAG pipeline in action!
+
+---
+
 ## 🌟 Features
 
 - **📤 PDF Document Upload**: Easy drag-and-drop interface for uploading PDF documents
@@ -229,3 +239,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ⭐ If you find this project helpful, please give it a star!
 """
+
